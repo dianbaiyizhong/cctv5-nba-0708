@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.nntk.nba0708"
-        minSdk = 31
+        minSdk = 29
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -51,6 +51,18 @@ android {
 
 dependencies {
 
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
+
+    implementation("com.alibaba.fastjson2:fastjson2-kotlin:2.0.53")
+
+    implementation("cn.jzvd:jiaozivideoplayer:7.7.0")
+
+    implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
+    implementation("io.reactivex.rxjava3:rxjava:3.1.5")
+    implementation("me.jessyan:autosize:1.2.1")
+
+    implementation("com.google.guava:guava:33.3.0-android")
+    implementation("com.blankj:utilcodex:1.31.1")
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.activity:activity-compose:1.7.0")

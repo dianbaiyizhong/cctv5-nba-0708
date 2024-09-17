@@ -1,0 +1,34 @@
+[
+  {
+    "teamName": "湖人",
+    "logoInfo": {
+      "logoName": "lakers",
+      "size": 149,
+      "loopIndex": 140
+    }
+  },
+  {
+    "teamName": "太阳",
+    "logoInfo": {
+      "logoName": "suns",
+      "size": 149,
+      "loopIndex": 140
+    }
+  },
+  {
+    "teamName": "凯尔特人",
+    "logoInfo": {
+      "logoName": "celtics",
+      "size": 147,
+      "loopIndex": 140
+    }
+  },
+  {
+    "teamName": "公牛",
+    "logoInfo": {
+      "logoName": "bulls",
+      "size": 148,
+      "loopIndex": 140
+    }
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "info": {
+    time: "2007-12-25"
+  },
+  "home": {
+    "team": "celtics",
+    "score": 80
+  },
+  "guest": {
+    "team": "bulls",
+    "score": 98
+  }
+}
