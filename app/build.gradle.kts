@@ -61,7 +61,6 @@ dependencies {
 
     implementation("com.alibaba.fastjson2:fastjson2-kotlin:2.0.53")
 
-    implementation("cn.jzvd:jiaozivideoplayer:7.7.0")
 
     implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
     implementation("io.reactivex.rxjava3:rxjava:3.1.5")

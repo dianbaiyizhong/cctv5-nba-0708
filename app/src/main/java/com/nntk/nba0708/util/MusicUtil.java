@@ -20,15 +20,5 @@ public class MusicUtil {
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mediaPlayer.prepare();
         mediaPlayer.setLooping(false);
-        mediaPlayer.start();
-
-        YoYo.with(Techniques.ZoomOutLeft)
-                .duration(1000)
-                .repeat(0)
-                .onEnd(animator -> {
-
-                });
-
-
     }
 }

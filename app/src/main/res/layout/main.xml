@@ -6,22 +6,18 @@
     android:orientation="vertical">
 
 
-    <com.nntk.nba0708.view.MyJzvd
+    <androidx.media3.ui.PlayerView
         android:id="@+id/bg_player"
+        app:resize_mode="fixed_width"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!--    <com.google.android.exoplayer2.ui.PlayerView-->
-    <!--        android:id="@+id/game_player"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent" />-->
 
     <androidx.media3.ui.PlayerView
         android:id="@+id/game_player"
+        app:resize_mode="fixed_width"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:show_buffering="when_playing"
-        app:show_shuffle_button="true" />
+        android:layout_height="match_parent" />
 
     <ImageView
         android:id="@+id/iv_guest_logo"

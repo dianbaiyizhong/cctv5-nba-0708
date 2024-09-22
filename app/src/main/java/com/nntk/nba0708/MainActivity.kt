@@ -1,7 +1,6 @@
 package com.nntk.nba0708
 
 import android.annotation.SuppressLint
-import android.content.pm.ActivityInfo
 import android.graphics.drawable.AnimationDrawable
 import android.media.MediaPlayer
 import android.net.Uri
@@ -9,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.activity.ComponentActivity
+import androidx.annotation.OptIn
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,16 +24,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.media3.common.MediaItem
-import androidx.media3.common.util.Util
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DefaultDataSource
-import androidx.media3.datasource.DefaultDataSourceFactory
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.ui.PlayerView
-import cn.jzvd.Jzvd
-import cn.jzvd.JzvdStd
 import com.alibaba.fastjson2.JSON
 import com.alibaba.fastjson2.JSONObject
 import com.blankj.utilcode.util.BarUtils
@@ -46,7 +44,6 @@ import com.google.common.base.Strings
 import com.nntk.nba0708.entity.TeamMeta
 import com.nntk.nba0708.ui.theme.Cctv5nba0708Theme
 import com.nntk.nba0708.util.MusicUtil
-import com.nntk.nba0708.view.MyJzvd
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -54,7 +51,8 @@ import me.jessyan.autosize.internal.CustomAdapt
 import java.io.File
 import java.util.concurrent.TimeUnit
 
-
+@OptIn(UnstableApi::class)
+@SuppressLint("CheckResult")
 class MainActivity : ComponentActivity(), CustomAdapt {
     private val mediaPlayer = MediaPlayer()
 
@@ -62,18 +60,17 @@ class MainActivity : ComponentActivity(), CustomAdapt {
     private lateinit var gameMeta: JSONObject
 
 
-    @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
 
         // 横向屏幕
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         BarUtils.setStatusBarVisibility(window, false)
         setContentView(R.layout.main)
 
         loadMeta()
 
-        val bgVideo = findViewById<MyJzvd>(R.id.bg_player)
+        val bgVideo = findViewById<PlayerView>(R.id.bg_player)
         val gameVideo = findViewById<PlayerView>(R.id.game_player)
 
 
@@ -86,20 +83,22 @@ class MainActivity : ComponentActivity(), CustomAdapt {
             }
         }
 
-
-
-
-        Observable.timer(0, TimeUnit.MILLISECONDS)
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .observeOn(Schedulers.io())
-            .subscribe { o: Long? ->
-                MusicUtil.play(this, mediaPlayer)
-            }
-
         // 初始化背景高科技墙
         initBgVideo(bgVideo)
         initGameVideo(gameVideo)
 
+
+        MusicUtil.play(this, mediaPlayer)
+        val mMediaListener = object : Player.Listener {
+            //播放状态变化
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                super.onPlaybackStateChanged(playbackState)
+                if (Player.STATE_ENDED == playbackState) {
+                    mediaPlayer.stop()
+                }
+            }
+        }
+        gameVideo.player?.addListener(mMediaListener)
 
         // 播放客队logo
         val imageViewGuest = findViewById<ImageView>(R.id.iv_guest_logo)
@@ -125,18 +124,19 @@ class MainActivity : ComponentActivity(), CustomAdapt {
 
 
 
+        mediaPlayer.start()
         Observable.timer(2000, TimeUnit.MILLISECONDS)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { o: Long? ->
                 guestLogo.start()
                 homeLogo.start()
-                YoYo.with(Techniques.ZoomInLeft)
+                YoYo.with(Techniques.ZoomInRight)
                     .duration(2000)
                     .repeat(0)
                     .playOn(imageViewGuest)
 
-                YoYo.with(Techniques.ZoomInRight)
+                YoYo.with(Techniques.ZoomInLeft)
                     .duration(2000)
                     .repeat(0)
                     .playOn(imageViewHome)
@@ -155,7 +155,7 @@ class MainActivity : ComponentActivity(), CustomAdapt {
 
         gameVideo.visibility = View.INVISIBLE
 
-        Observable.timer(9000, TimeUnit.MILLISECONDS)
+        Observable.timer(10000, TimeUnit.MILLISECONDS)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { o: Long? ->
@@ -168,7 +168,6 @@ class MainActivity : ComponentActivity(), CustomAdapt {
                         gameVideo.player?.play()
                     }
                     .playOn(imageViewGuest)
-
 
 
                 YoYo.with(Techniques.ZoomOutRight)
@@ -184,14 +183,6 @@ class MainActivity : ComponentActivity(), CustomAdapt {
             }
 
 
-        Observable.timer(15000, TimeUnit.MILLISECONDS)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { o: Long? ->
-
-
-            }
-
 
     }
 
@@ -204,6 +195,7 @@ class MainActivity : ComponentActivity(), CustomAdapt {
         gameMeta = JSON.parseObject(ResourceUtils.readAssets2String("game.json5"))
 
     }
+
 
     private fun initGameVideo(gameVideo: PlayerView) {
         val bgMp4Path = PathUtils.getInternalAppDataPath() + File.separator + "lakers_suns.mp4"
@@ -219,20 +211,26 @@ class MainActivity : ComponentActivity(), CustomAdapt {
         player.prepare()
         gameVideo.controllerAutoShow = false
         gameVideo.player = player
+        player.setVolume(0f)
+
     }
 
-    private fun initBgVideo(bgVideo: MyJzvd) {
-        Jzvd.setVideoImageDisplayType(Jzvd.VIDEO_IMAGE_DISPLAY_TYPE_FILL_SCROP)
+    private fun initBgVideo(bgVideo: PlayerView) {
         // 拷贝bg到本地sd
         val bgMp4Path = PathUtils.getInternalAppDataPath() + File.separator + "bg.mp4"
         ResourceUtils.copyFileFromRaw(R.raw.bg, bgMp4Path)
-        bgVideo.setUp(bgMp4Path, null, JzvdStd.SCREEN_NORMAL)
-        bgVideo.startVideo()
 
-        bgVideo.jzDataSource.looping = true
-        bgVideo.progressBar.visibility = View.INVISIBLE
-        bgVideo.bottomProgressBar.visibility = View.INVISIBLE
-
+        val player = ExoPlayer.Builder(this).build()
+        val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(this)
+        val videoSource: MediaSource =
+            ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(
+                MediaItem.fromUri(Uri.parse(bgMp4Path))
+            )
+        player.setMediaSource(videoSource)
+        player.prepare()
+        bgVideo.controllerAutoShow = false
+        bgVideo.player = player
+        player.playWhenReady = true
 
     }
 
@@ -279,7 +277,6 @@ class MainActivity : ComponentActivity(), CustomAdapt {
     override fun onPause() {
         super.onPause()
         mediaPlayer.stop()
-        MyJzvd.releaseAllVideos()
     }
 }
 
