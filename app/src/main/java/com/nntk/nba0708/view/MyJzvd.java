@@ -21,7 +21,8 @@ public class MyJzvd extends JzvdStd {
     private Adapter adapter;
 
     public interface Adapter {
-        public void completion();
+        public void onLoad();
+        public void onComplete();
     }
 
 
@@ -39,11 +40,11 @@ public class MyJzvd extends JzvdStd {
         bottomProgressBar.setVisibility(View.INVISIBLE);
     }
 
+
     @Override
     public void onPrepared() {
         super.onPrepared();
         mediaInterface.setVolume(0f, 0f);
-
     }
 
 

@@ -1,9 +1,14 @@
 package com.nntk.nba0708.util;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+import com.nntk.nba0708.R;
 
 import java.io.IOException;
 
@@ -16,6 +21,14 @@ public class MusicUtil {
         mediaPlayer.prepare();
         mediaPlayer.setLooping(false);
         mediaPlayer.start();
+
+        YoYo.with(Techniques.ZoomOutLeft)
+                .duration(1000)
+                .repeat(0)
+                .onEnd(animator -> {
+
+                });
+
 
     }
 }

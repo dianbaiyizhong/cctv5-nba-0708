@@ -12,6 +12,10 @@ dependencyResolutionManagement {
         mavenCentral()
         maven { url = uri("https://maven.aliyun.com/nexus/content/groups/public/") }
         maven { url = uri("https://maven.aliyun.com/nexus/content/repositories/jcenter") }
+        maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https://maven.aliyun.com/nexus/content/repositories/google") }
+        maven { url = uri("https://maven.aliyun.com/nexus/content/repositories/gradle-plugin") }
+
 
     }
 }

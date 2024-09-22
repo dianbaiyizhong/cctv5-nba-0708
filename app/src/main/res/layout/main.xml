@@ -1,26 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
 
     <com.nntk.nba0708.view.MyJzvd
-        android:id="@+id/jz_video"
+        android:id="@+id/bg_player"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <!--    <com.google.android.exoplayer2.ui.PlayerView-->
+    <!--        android:id="@+id/game_player"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent" />-->
+
+    <androidx.media3.ui.PlayerView
+        android:id="@+id/game_player"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:show_buffering="when_playing"
+        app:show_shuffle_button="true" />
 
     <ImageView
         android:id="@+id/iv_guest_logo"
-        android:layout_width="120dp"
+        android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_gravity="center_vertical|left" />
+        android:layout_gravity="left" />
 
 
     <ImageView
         android:id="@+id/iv_home_logo"
-        android:layout_width="120dp"
+        android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_gravity="center_vertical|right" />
+        android:layout_gravity="right" />
+
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/compose_view"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom" />
+
 </FrameLayout>
