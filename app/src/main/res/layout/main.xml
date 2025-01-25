@@ -8,29 +8,32 @@
 
     <androidx.media3.ui.PlayerView
         android:id="@+id/bg_player"
-        app:resize_mode="fixed_width"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:resize_mode="fixed_width" />
+
 
 
     <androidx.media3.ui.PlayerView
         android:id="@+id/game_player"
-        app:resize_mode="fixed_width"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:resize_mode="fixed_width" />
 
     <ImageView
         android:id="@+id/iv_guest_logo"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_gravity="left" />
+        android:layout_gravity="left"
+        android:layout_marginLeft="40dp" />
 
 
     <ImageView
         android:id="@+id/iv_home_logo"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_gravity="right" />
+        android:layout_gravity="right"
+        android:layout_marginRight="40dp" />
 
     <androidx.compose.ui.platform.ComposeView
         android:id="@+id/compose_view"

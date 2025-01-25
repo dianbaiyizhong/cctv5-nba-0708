@@ -122,23 +122,35 @@ class MainActivity : ComponentActivity(), CustomAdapt {
                 .get()
         val homeLogo = loadLogo(imageViewHome, teamMeta, "home")
 
+        imageViewHome.visibility = View.GONE
+        imageViewGuest.visibility = View.GONE
+
 
 
         mediaPlayer.start()
-        Observable.timer(2000, TimeUnit.MILLISECONDS)
+        Observable.timer(1000, TimeUnit.MILLISECONDS)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { o: Long? ->
+
+                imageViewGuest.visibility = View.VISIBLE
+                imageViewHome.visibility = View.VISIBLE
+
                 guestLogo.start()
                 homeLogo.start()
+
+
                 YoYo.with(Techniques.ZoomInRight)
-                    .duration(2000)
+                    .duration(1000)
                     .repeat(0)
+
                     .playOn(imageViewGuest)
 
+
                 YoYo.with(Techniques.ZoomInLeft)
-                    .duration(2000)
+                    .duration(1000)
                     .repeat(0)
+
                     .playOn(imageViewHome)
 
 
@@ -155,7 +167,7 @@ class MainActivity : ComponentActivity(), CustomAdapt {
 
         gameVideo.visibility = View.INVISIBLE
 
-        Observable.timer(10000, TimeUnit.MILLISECONDS)
+        Observable.timer(7000, TimeUnit.MILLISECONDS)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { o: Long? ->

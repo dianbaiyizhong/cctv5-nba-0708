@@ -54,6 +54,8 @@ dependencies {
     implementation("androidx.media3:media3-ui:1.4.1")
     implementation("androidx.media3:media3-exoplayer:1.4.1")
 
+
+
     implementation("com.daimajia.easing:library:2.0@aar")
     implementation("com.daimajia.androidanimations:library:2.4@aar")
 
@@ -62,6 +64,7 @@ dependencies {
     implementation("com.alibaba.fastjson2:fastjson2-kotlin:2.0.53")
 
 
+    implementation("com.google.android.material:material:1.13.0-alpha06")
     implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
     implementation("io.reactivex.rxjava3:rxjava:3.1.5")
 
